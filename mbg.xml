@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+	<context id="DB2Tables" targetRuntime="MyBatis3">
+	    <!-- 是否生成注释，true表示产生 -->
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		<!-- 配置数据库连接 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost:3306/panshi" userId="root"
+			password="0816">
+		</jdbcConnection>
+
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<!-- 指定javaBean生成的位置 -->
+		<javaModelGenerator targetPackage="com.ljm.bean"
+			targetProject=".\src\main\java">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<!--指定sql映射文件生成的位置 -->
+		<sqlMapGenerator targetPackage="mapper" targetProject=".\src\main\resources">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+
+		<!-- 指定dao接口生成的位置，mapper接口 -->
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.ljm.dao" targetProject=".\src\main\java">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+
+		<!-- table指定每个表的生成策略 -->
+		<table tableName="attendance_record" domainObjectName="AttendanceRecord"></table>
+		<table tableName="blog" domainObjectName="Blog"></table>
+		<table tableName="blog_remark" domainObjectName="BlogRemark"></table>
+		<table tableName="daily_plan" domainObjectName="DailyPlan"></table>
+		<table tableName="imgs" domainObjectName="Imgs"></table>
+		<table tableName="member_basic_info" domainObjectName="MemberBasicInfo"></table>
+		<table tableName="question" domainObjectName="Question"></table>
+		<table tableName="question_remark" domainObjectName="QuestionRemark"></table>
+		<table tableName="reform" domainObjectName="Reform"></table>
+		<table tableName="reform_relation" domainObjectName="ReformRelation"></table>
+		<table tableName="reform_type" domainObjectName="ReformType"></table>
+		<table tableName="student_location" domainObjectName="StudentLocation"></table>
+		<table tableName="study_resource" domainObjectName="StudyResource"></table>
+		<table tableName="study_route" domainObjectName="StudyRoute"></table>
+		<table tableName="study_task" domainObjectName="StudyTask"></table>
+		<table tableName="task_member_relation" domainObjectName="TaskMemberRelation"></table>
+		<table tableName="works" domainObjectName="Works"></table>
+	</context>
+</generatorConfiguration>

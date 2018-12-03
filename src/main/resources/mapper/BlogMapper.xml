@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ljm.dao.BlogMapper">
+  <resultMap id="BaseResultMap" type="com.ljm.bean.Blog">
+    <id column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <result column="blog_writer" jdbcType="INTEGER" property="blogWriter" />
+    <result column="blog_title" jdbcType="VARCHAR" property="blogTitle" />
+    <result column="blog_content" jdbcType="VARCHAR" property="blogContent" />
+    <result column="blog_imgs" jdbcType="INTEGER" property="blogImgs" />
+    <result column="write_time" jdbcType="TIMESTAMP" property="writeTime" />
+    <result column="look_nums" jdbcType="INTEGER" property="lookNums" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    blog_id, blog_writer, blog_title, blog_content, blog_imgs, write_time, look_nums
+  </sql>
+  <select id="selectByExample" parameterType="com.ljm.bean.BlogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from blog
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from blog
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from blog
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ljm.bean.BlogExample">
+    delete from blog
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ljm.bean.Blog">
+    insert into blog (blog_id, blog_writer, blog_title, 
+      blog_content, blog_imgs, write_time, 
+      look_nums)
+    values (#{blogId,jdbcType=INTEGER}, #{blogWriter,jdbcType=INTEGER}, #{blogTitle,jdbcType=VARCHAR}, 
+      #{blogContent,jdbcType=VARCHAR}, #{blogImgs,jdbcType=INTEGER}, #{writeTime,jdbcType=TIMESTAMP}, 
+      #{lookNums,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ljm.bean.Blog">
+    insert into blog
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="blogId != null">
+        blog_id,
+      </if>
+      <if test="blogWriter != null">
+        blog_writer,
+      </if>
+      <if test="blogTitle != null">
+        blog_title,
+      </if>
+      <if test="blogContent != null">
+        blog_content,
+      </if>
+      <if test="blogImgs != null">
+        blog_imgs,
+      </if>
+      <if test="writeTime != null">
+        write_time,
+      </if>
+      <if test="lookNums != null">
+        look_nums,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="blogId != null">
+        #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="blogWriter != null">
+        #{blogWriter,jdbcType=INTEGER},
+      </if>
+      <if test="blogTitle != null">
+        #{blogTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="blogContent != null">
+        #{blogContent,jdbcType=VARCHAR},
+      </if>
+      <if test="blogImgs != null">
+        #{blogImgs,jdbcType=INTEGER},
+      </if>
+      <if test="writeTime != null">
+        #{writeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lookNums != null">
+        #{lookNums,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ljm.bean.BlogExample" resultType="java.lang.Long">
+    select count(*) from blog
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update blog
+    <set>
+      <if test="record.blogId != null">
+        blog_id = #{record.blogId,jdbcType=INTEGER},
+      </if>
+      <if test="record.blogWriter != null">
+        blog_writer = #{record.blogWriter,jdbcType=INTEGER},
+      </if>
+      <if test="record.blogTitle != null">
+        blog_title = #{record.blogTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogContent != null">
+        blog_content = #{record.blogContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogImgs != null">
+        blog_imgs = #{record.blogImgs,jdbcType=INTEGER},
+      </if>
+      <if test="record.writeTime != null">
+        write_time = #{record.writeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lookNums != null">
+        look_nums = #{record.lookNums,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update blog
+    set blog_id = #{record.blogId,jdbcType=INTEGER},
+      blog_writer = #{record.blogWriter,jdbcType=INTEGER},
+      blog_title = #{record.blogTitle,jdbcType=VARCHAR},
+      blog_content = #{record.blogContent,jdbcType=VARCHAR},
+      blog_imgs = #{record.blogImgs,jdbcType=INTEGER},
+      write_time = #{record.writeTime,jdbcType=TIMESTAMP},
+      look_nums = #{record.lookNums,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ljm.bean.Blog">
+    update blog
+    <set>
+      <if test="blogWriter != null">
+        blog_writer = #{blogWriter,jdbcType=INTEGER},
+      </if>
+      <if test="blogTitle != null">
+        blog_title = #{blogTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="blogContent != null">
+        blog_content = #{blogContent,jdbcType=VARCHAR},
+      </if>
+      <if test="blogImgs != null">
+        blog_imgs = #{blogImgs,jdbcType=INTEGER},
+      </if>
+      <if test="writeTime != null">
+        write_time = #{writeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lookNums != null">
+        look_nums = #{lookNums,jdbcType=INTEGER},
+      </if>
+    </set>
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ljm.bean.Blog">
+    update blog
+    set blog_writer = #{blogWriter,jdbcType=INTEGER},
+      blog_title = #{blogTitle,jdbcType=VARCHAR},
+      blog_content = #{blogContent,jdbcType=VARCHAR},
+      blog_imgs = #{blogImgs,jdbcType=INTEGER},
+      write_time = #{writeTime,jdbcType=TIMESTAMP},
+      look_nums = #{lookNums,jdbcType=INTEGER}
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </update>
+</mapper>

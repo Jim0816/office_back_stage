@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ljm.dao.WorksMapper">
+  <resultMap id="BaseResultMap" type="com.ljm.bean.Works">
+    <id column="works_id" jdbcType="INTEGER" property="worksId" />
+    <result column="works_title" jdbcType="VARCHAR" property="worksTitle" />
+    <result column="works_intr" jdbcType="VARCHAR" property="worksIntr" />
+    <result column="works_imgs" jdbcType="INTEGER" property="worksImgs" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    works_id, works_title, works_intr, works_imgs
+  </sql>
+  <select id="selectByExample" parameterType="com.ljm.bean.WorksExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from works
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from works
+    where works_id = #{worksId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from works
+    where works_id = #{worksId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ljm.bean.WorksExample">
+    delete from works
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ljm.bean.Works">
+    insert into works (works_id, works_title, works_intr, 
+      works_imgs)
+    values (#{worksId,jdbcType=INTEGER}, #{worksTitle,jdbcType=VARCHAR}, #{worksIntr,jdbcType=VARCHAR}, 
+      #{worksImgs,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ljm.bean.Works">
+    insert into works
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="worksId != null">
+        works_id,
+      </if>
+      <if test="worksTitle != null">
+        works_title,
+      </if>
+      <if test="worksIntr != null">
+        works_intr,
+      </if>
+      <if test="worksImgs != null">
+        works_imgs,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="worksId != null">
+        #{worksId,jdbcType=INTEGER},
+      </if>
+      <if test="worksTitle != null">
+        #{worksTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="worksIntr != null">
+        #{worksIntr,jdbcType=VARCHAR},
+      </if>
+      <if test="worksImgs != null">
+        #{worksImgs,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ljm.bean.WorksExample" resultType="java.lang.Long">
+    select count(*) from works
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update works
+    <set>
+      <if test="record.worksId != null">
+        works_id = #{record.worksId,jdbcType=INTEGER},
+      </if>
+      <if test="record.worksTitle != null">
+        works_title = #{record.worksTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.worksIntr != null">
+        works_intr = #{record.worksIntr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.worksImgs != null">
+        works_imgs = #{record.worksImgs,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update works
+    set works_id = #{record.worksId,jdbcType=INTEGER},
+      works_title = #{record.worksTitle,jdbcType=VARCHAR},
+      works_intr = #{record.worksIntr,jdbcType=VARCHAR},
+      works_imgs = #{record.worksImgs,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ljm.bean.Works">
+    update works
+    <set>
+      <if test="worksTitle != null">
+        works_title = #{worksTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="worksIntr != null">
+        works_intr = #{worksIntr,jdbcType=VARCHAR},
+      </if>
+      <if test="worksImgs != null">
+        works_imgs = #{worksImgs,jdbcType=INTEGER},
+      </if>
+    </set>
+    where works_id = #{worksId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ljm.bean.Works">
+    update works
+    set works_title = #{worksTitle,jdbcType=VARCHAR},
+      works_intr = #{worksIntr,jdbcType=VARCHAR},
+      works_imgs = #{worksImgs,jdbcType=INTEGER}
+    where works_id = #{worksId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ljm.dao.AttendanceRecordMapper">
+  <resultMap id="BaseResultMap" type="com.ljm.bean.AttendanceRecord">
+    <id column="attendance_id" jdbcType="INTEGER" property="attendanceId" />
+    <result column="member_id" jdbcType="INTEGER" property="memberId" />
+    <result column="attend_time" jdbcType="TIMESTAMP" property="attendTime" />
+    <result column="location" jdbcType="VARCHAR" property="location" />
+    <result column="attend_sign" jdbcType="CHAR" property="attendSign" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    attendance_id, member_id, attend_time, location, attend_sign
+  </sql>
+  <select id="selectByExample" parameterType="com.ljm.bean.AttendanceRecordExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from attendance_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from attendance_record
+    where attendance_id = #{attendanceId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from attendance_record
+    where attendance_id = #{attendanceId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ljm.bean.AttendanceRecordExample">
+    delete from attendance_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ljm.bean.AttendanceRecord">
+    insert into attendance_record (attendance_id, member_id, attend_time, 
+      location, attend_sign)
+    values (#{attendanceId,jdbcType=INTEGER}, #{memberId,jdbcType=INTEGER}, #{attendTime,jdbcType=TIMESTAMP}, 
+      #{location,jdbcType=VARCHAR}, #{attendSign,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ljm.bean.AttendanceRecord">
+    insert into attendance_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="attendanceId != null">
+        attendance_id,
+      </if>
+      <if test="memberId != null">
+        member_id,
+      </if>
+      <if test="attendTime != null">
+        attend_time,
+      </if>
+      <if test="location != null">
+        location,
+      </if>
+      <if test="attendSign != null">
+        attend_sign,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="attendanceId != null">
+        #{attendanceId,jdbcType=INTEGER},
+      </if>
+      <if test="memberId != null">
+        #{memberId,jdbcType=INTEGER},
+      </if>
+      <if test="attendTime != null">
+        #{attendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="location != null">
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="attendSign != null">
+        #{attendSign,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ljm.bean.AttendanceRecordExample" resultType="java.lang.Long">
+    select count(*) from attendance_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update attendance_record
+    <set>
+      <if test="record.attendanceId != null">
+        attendance_id = #{record.attendanceId,jdbcType=INTEGER},
+      </if>
+      <if test="record.memberId != null">
+        member_id = #{record.memberId,jdbcType=INTEGER},
+      </if>
+      <if test="record.attendTime != null">
+        attend_time = #{record.attendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.location != null">
+        location = #{record.location,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attendSign != null">
+        attend_sign = #{record.attendSign,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update attendance_record
+    set attendance_id = #{record.attendanceId,jdbcType=INTEGER},
+      member_id = #{record.memberId,jdbcType=INTEGER},
+      attend_time = #{record.attendTime,jdbcType=TIMESTAMP},
+      location = #{record.location,jdbcType=VARCHAR},
+      attend_sign = #{record.attendSign,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ljm.bean.AttendanceRecord">
+    update attendance_record
+    <set>
+      <if test="memberId != null">
+        member_id = #{memberId,jdbcType=INTEGER},
+      </if>
+      <if test="attendTime != null">
+        attend_time = #{attendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="location != null">
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="attendSign != null">
+        attend_sign = #{attendSign,jdbcType=CHAR},
+      </if>
+    </set>
+    where attendance_id = #{attendanceId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ljm.bean.AttendanceRecord">
+    update attendance_record
+    set member_id = #{memberId,jdbcType=INTEGER},
+      attend_time = #{attendTime,jdbcType=TIMESTAMP},
+      location = #{location,jdbcType=VARCHAR},
+      attend_sign = #{attendSign,jdbcType=CHAR}
+    where attendance_id = #{attendanceId,jdbcType=INTEGER}
+  </update>
+</mapper>
